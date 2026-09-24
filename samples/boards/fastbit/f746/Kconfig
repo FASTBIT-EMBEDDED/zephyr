@@ -1,0 +1,44 @@
+# Copyright (c) 2026 Fastbit Embedded Technologies Pvt Ltd.
+# All rights reserved.
+#
+# Proprietary and confidential. Use, reproduction, and distribution
+# restricted to the terms of the Fastbit Services Agreement.
+#
+# The copied LCD source files reference several app-level Kconfig
+# symbols that normally come from the original application's own
+# app/Kconfig. Declared standalone here, with the same defaults, so
+# the files need zero edits.
+
+mainmenu "Fastbit F746G LCD work"
+
+config APP_LOG_LEVEL
+	int
+	default 3
+
+config APP_OTA_DEVICE_VERSION
+	string "Device firmware version string (display only)"
+	default "1.0.0"
+	help
+	  Shown in the FW: cell on the OTA LCD status screen. No real
+	  OTA/anti-rollback meaning here -- the real OTA manager
+	  implementation is not included in this copy.
+
+config APP_LCD_TEST
+	bool "Standalone LCD bring-up test (Check 6)"
+	depends on DISPLAY
+	default n
+	help
+	  Gates the normal LCD bring-up test (lcd_hello_run(), in
+	  lcd_hello_f746g_zephyr.c). Matches the original application's
+	  own APP_LCD_TEST symbol.
+
+config APP_LCD_STATUS
+	bool "Enable LCD OTA status display"
+	depends on DISPLAY
+	default n
+	help
+	  Gates the OTA status screen (lcd_status_wiring_init(), in
+	  lcd_status_wiring_f746g_zephyr.c). Matches the original
+	  application's own APP_LCD_STATUS symbol.
+
+source "Kconfig.zephyr"
