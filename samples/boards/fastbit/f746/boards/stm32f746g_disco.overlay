@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 2026 Fastbit Embedded Technologies Pvt Ltd.
+ * All rights reserved.
+ *
+ * Proprietary and confidential. Use, reproduction, and distribution
+ * restricted to the terms of the Fastbit Services Agreement.
+ */
+
+/*
+ * DHT11 temperature+humidity sensor, single-wire data line on PA0
+ * (Arduino header A0) -- confirmed free on this board: not used by
+ * LTDC, FMC/SDRAM, the stock user button/LED, or I2C3 touch.
+ * GPIO_ACTIVE_LOW matches Zephyr's own DHT sample (samples/sensor/dht)
+ * -- the driver measures pulse-low durations to decode bits.
+ */
+/ {
+	dht11: dht11 {
+		compatible = "aosong,dht";
+		status = "okay";
+		dio-gpios = <&gpioa 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+	};
+};
+
+&ltdc {
+	/* Black LTDC FIFO-underrun background, matching the ota-lcd app's
+	 * own board overlay -- keeps a brief underrun invisible against
+	 * this dark UI instead of showing the stock white default. */
+	def-back-color-red = <0x00>;
+	def-back-color-green = <0x00>;
+	def-back-color-blue = <0x00>;
+};
